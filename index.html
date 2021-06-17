@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>El paseo de clarck</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"> 
+        <link rel="stylesheet" href="css/leaflet.css"> 
+        <script src="js/leaflet.js"></script>
+        <style> 
+           body { 
+             padding: 0; 
+             margin: 0; 
+             } 
+           html, body, #map { 
+            height: 100%; 
+            width: 100%; 
+            }
+           .legend {
+            width: 400px;
+            font-size: 12px;
+            color: #333333;
+            font-family: "calibri";
+            padding: 10px 12px;
+            background-color: rgb(168, 238, 168) ;
+            box-shadow: 0 0 10px rgba(3, 3, );
+            border-radius: 3px;
+            border: 1px solid grey;
+        }
+           .legend img {
+            width: 200px;
+            height: 140px; 
+            margin: auto;
+            display: block;
+        }
+            #title {
+            position: fixed;
+            font-family: "Calibri";
+            top: 20px;
+            right: 40px;
+            left: 500px;
+            margin-top: 10;
+            padding: 10px 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+            }
+        </style>
+    </head>
+<body>
+        <div id="map"></div> 
+        <h1 id="title">El paseo de Clark</h1>
+        <script>
+        let mapa1 = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+            {attribution: '&copy; <a href="http://' + 'www.openstreetmap.org/copyright">OpenStreetMap</a>'});
+        let mapa2 = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
+        
+        let map = L.map("map", {center: [41.662360, -0.905127], zoom: 17, layers: [mapa1, mapa2]});
+    let baseMaps = {
+        "ImagenOpenStreetMap": mapa1,
+        "Imagen de Esri": mapa2,
+    };
+
+    var clarck = L.icon({
+        iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/ee/Emojione_1F436.svg',
+        iconSize:     [63, 63],
+        iconAnchor:   [20, 35], 
+    });
+    
+    
+    L.control.layers(baseMaps). addTo(map);
+        let instituto_andalan = L.marker([41.66089, -0.90437],
+            {title: "Instituto Andalan", icon: clarck}).addTo(map);
+        let colegio_almozara = L.marker([41.662518, -0.902263],
+            {title: "Colegio Público la almozara",icon: clarck}).addTo(map);
+        let aso_alzheimer = L.marker([41.663815, -0.903581],
+            {title: "Asociación de enfermos de Alzheimer", icon: clarck}).addTo(map);
+        let expo =  L.marker([41.664699, -0.906287],
+            {title: "Zona Expo", icon: clarck}).addTo(map);   
+        let etopia = L.marker([41.660402, -0.907087],
+            {title: "Etopía", icon: clarck}).addTo(map);
+        let ambulatorio = L.marker([41.659631, -0.904734],
+            {title: "Ambulatorio de la Almozara", icon: clarck}).addTo(map);
+        
+        
+    let paseo = L.polyline(
+[[41.66089, -0.90437], [41.662518, -0.902263], [41.663815, -0.903581],[41.664699, -0.906287],[41.660402, -0.907087],[41.659631, -0.904734]],
+{color: "yellow", weight: 3.5}
+).addTo(map);
+
+
+instituto_andalan.bindPopup("<h2>Instituto Andalán </h2><img src='images/instituto_andalan_tamaño.jpg'</p>",);
+colegio_almozara.bindPopup("<h2>Colegio Público Almozara </h2><img src='images/cole_almozara_tamaño.jpg'</p>",);
+aso_alzheimer.bindPopup("<h2>Asociación de enfermos de Alzheimer </h2><img src='images/alzheimer_tamaño.jpg'</p>",);
+expo.bindPopup("<h2>Zona Expo </h2><img src='images/expo_tamaño.jpg'</p>",);
+etopia.bindPopup("<h2>Etopía </h2><img src='images/etopia_tamaño.jpg'</p>",);
+ambulatorio.bindPopup("<h2>Ambulatorio Almozara </h2><img src='images/ambulatorio_tamaño.jpg'</p>",);
+
+
+let legend = L.control({position: "bottomleft"});
+legend.onAdd = function() {
+    let div = L.DomUtil.create("div", "legend");
+    div.innerHTML = 
+        '<center><H3><p><b>El paseo de las tardes con Clarck por la Almozara (Zaragoza). Autora: Pilar Bravo Viñuales.</center></H3></b></p><hr>' +
+        '<justify><p>Este visor muestra la ruta que solemos hacer clarck y yo por el barrio de la almozara como una ruta que queda definida por unos nodos designados como: Un instituto, un colegio, un centro para mayores, la expo, Etopía y el ambulatorio del barrio.<br>' +
+        '<justify><p>La ruta que sigo con Clark desde mi casa a través del barrio es la siguiente:<br>' +
+        '<p><ol>' +
+        '<li>Instituto Andalán <a href=https://sites.google.com/a/iesandalan.es/web-del-instituto/> aquí </a></li>' +
+        '<li>Colegío público Almozara<a href=https://ceiplaalmozara.catedu.es/> aquí </a></li>' +
+        '<li>Asociación de enfermos de Alzheimer <a href=http://www.afedaz.es/> aquí </a></li>' +
+        '<li>Zona Expo <a href=http://www.expozaragoza2008.es/> aquí </a></li>' +
+        '<li>Etopía <a href=https://estoyenetopia.es/> aquí </a></li>' +
+        '<li>Ambulatorio Almozara<a href=https://sectorzaragozados.salud.aragon.es/indice/centro-atencion-primaria/almozara> aquí </a></li>' +
+        '</ol></p>' +
+        '<p><b>Un poco sobre Clarck: Clarck es un perro de 4 años de tamaño grande de unos 40 kg aproximadamente y que necesita paseos largos para que se canse. Clarck fue adoptado hace 4 años en la <a href=http://www.dpz.es/ciudadano/albergue-sanitario-provincial/informacion-sobre-adopciones/animales-disponibles> perrera de movera, Zaragoza. </a><hr></b>' +
+        '<img src="images/clarck.jpg">';
+    return div;
+
+};
+legend.addTo(map);
+            </script> 
+        </body> 
+        </html>
